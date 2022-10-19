@@ -12,12 +12,30 @@ class Bowling
 
         result = 0
         rollIndex = 0
-        20.times do 
-            result += @rolls[rollIndex]
-            rollIndex += 1
+        10.times do 
+            if spare? rollIndex
+               result += spareScore rollIndex
+            else 
+                result += frameScore rollIndex
+            end
+            rollIndex += 2
         end
         result
     end
+
+    def spare? rollIndex
+        @rolls[rollIndex] + @rolls[rollIndex + 1] == 10
+    end
+
+    def spareScore rollIndex
+        @rolls[rollIndex] + @rolls[rollIndex + 1] + @rolls[rollIndex + 2]
+    end
+
+    def frameScore rollIndex
+        @rolls[rollIndex] + @rolls[rollIndex + 1]
+    end
+
+
 end
 
 
@@ -38,5 +56,12 @@ describe "bowling_game" do
         expect(@game.score).to eq(20)
     end
 
+    it 'can roll a spare' do
+        @game.roll(5)
+        @game.roll(5)
+        @game.roll(3)
+        17.times{@game.roll(0)}
+        expect(@game.score).to eq(16)
+    end
 
 end
