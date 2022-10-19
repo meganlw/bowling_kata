@@ -13,12 +13,16 @@ class Bowling
         result = 0
         rollIndex = 0
         10.times do 
-            if spare? rollIndex
+            if @rolls[rollIndex] == 10
+                result += @rolls[rollIndex] + @rolls[rollIndex + 1] + @rolls[rollIndex + 2]
+                rollIndex += 1
+            elsif spare? rollIndex
                result += spareScore rollIndex
+               rollIndex += 2
             else 
                 result += frameScore rollIndex
+                rollIndex += 2
             end
-            rollIndex += 2
         end
         result
     end
@@ -62,6 +66,14 @@ describe "bowling_game" do
         @game.roll(3)
         17.times{@game.roll(0)}
         expect(@game.score).to eq(16)
+    end
+
+    it 'can roll a strike' do
+        @game.roll(10)
+        @game.roll(3)
+        @game.roll(4)
+        16.times{@game.roll(0)}
+        expect(@game.score).to eq(24)
     end
 
 end
