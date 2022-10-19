@@ -8,8 +8,6 @@ class Bowling
     end
 
     def score
-        # @rolls.reduce(:+)  /reduce method does same thing as below
-
         result = 0
         rollIndex = 0
         10.times do 
